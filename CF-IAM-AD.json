@@ -1,0 +1,91 @@
+{
+  "Parameters": {
+    "SAMLID": {
+      "Type": "String",
+      "Description": "SAML IDENTITY PROVIDER ARN"
+    }
+  },
+    "Resources": {
+      "FullAdminABC": {
+        "Type": "AWS::IAM::Role",
+        "Properties": {
+            "Description" : "SAML Role for Azure AD SSO Admin Access",
+            "RoleName" : "AdminABC",
+            "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": 
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Federated": { "Ref" : "SAMLID" }
+                },
+                "Action": "sts:AssumeRoleWithSAML",
+                "Condition": {
+                  "StringEquals": {
+                    "SAML:aud": "https://signin.aws.amazon.com/saml"
+                  }
+                }
+              }
+            
+          },
+          "ManagedPolicyArns": [
+            "arn:aws:iam::aws:policy/AdministratorAccess"           
+          ]
+        }
+      },
+      "BillingABC": {
+          "Type": "AWS::IAM::Role",
+          "Properties": {
+            "Description" : "SAML Role for Azure AD SSO Billing Access",
+            "RoleName" : "BillingABC",
+            "AssumeRolePolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": 
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Federated": { "Ref" : "SAMLID" }
+                },
+                "Action": "sts:AssumeRoleWithSAML",
+                "Condition": {
+                  "StringEquals": {
+                    "SAML:aud": "https://signin.aws.amazon.com/saml"
+                  }
+                }
+              }
+            
+          },
+            "ManagedPolicyArns": [
+              "arn:aws:iam::aws:policy/job-function/Billing"    
+            ]
+          }
+        },
+        "ReadOnlyABC": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "Description" : "SAML Role for Azure AD SSO Read Only Access",
+                "RoleName" : "ReadOnlyABC",
+                "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": 
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Federated": { "Ref" : "SAMLID" }
+                },
+                "Action": "sts:AssumeRoleWithSAML",
+                "Condition": {
+                  "StringEquals": {
+                    "SAML:aud": "https://signin.aws.amazon.com/saml"
+                  }
+                }
+              }
+            
+          },
+              "ManagedPolicyArns": [
+                "arn:aws:iam::aws:policy/ReadOnlyAccess"
+              ]
+            }
+          }
+    }
+  }

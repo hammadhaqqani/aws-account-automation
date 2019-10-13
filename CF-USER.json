@@ -1,0 +1,98 @@
+{
+  "Resources": {
+    "AWSSCRIPTS": {
+      "Type": "AWS::IAM::User"
+    },
+    "AWSSCRIPTSPolicy": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "Description" : "This policy allows to run scripts in new account.",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "*",
+              "Resource": "*"
+            }
+          ]
+        },
+        "Users": [{
+          "Ref": "AWSSCRIPTS"
+        }]
+      }
+    },
+    "AWSSCRIPTSKeys": {
+      "Type": "AWS::IAM::AccessKey",
+      "Properties": {
+        "UserName": {
+          "Ref": "AWSSCRIPTS"
+        }
+      }
+    },
+   
+  "ADDUSER": {
+    "Type": "AWS::IAM::User"
+  },
+  "ADDUSERPolicy": {
+    "Type": "AWS::IAM::ManagedPolicy",
+    "Properties": {
+      "Description" : "This policy allows to list IAM Roles for AAD User.",
+      "PolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": "iam:ListRoles",
+            "Resource": "*"
+          }
+        ]
+      },
+      "Users": [{
+        "Ref": "ADDUSER"
+      }]
+    }
+  },
+  "ADDUSERKeys": {
+    "Type": "AWS::IAM::AccessKey",
+    "Properties": {
+      "UserName": {
+        "Ref": "ADDUSER"
+      }
+    }
+  }
+},
+
+  "Outputs": {
+    "AccessKeyAWS": {
+      "Value": {
+        "Ref": "AWSSCRIPTSKeys"
+      },
+      "Description": "Access Key ID of AWS Scripts"
+    },
+    "SecretKeyAWS": {
+      "Value": {
+        "Fn::GetAtt": [
+          "AWSSCRIPTSKeys",
+          "SecretAccessKey"
+        ]
+    },
+    "Description": "Secret Key of AWS Scripts User"
+  },
+  "AccessKeyADD": {
+    "Value": {
+      "Ref": "ADDUSERKeys"
+    },
+    "Description": "Access Key ID of ADD USER"
+  },
+  "SecretKeyADD": {
+    "Value": {
+      "Fn::GetAtt": [
+        "ADDUSERKeys",
+        "SecretAccessKey"
+      ]
+  },
+  "Description": "Secret Key of ADD User"
+}
+}
+}

@@ -1,0 +1,19 @@
+{
+  "ConfigRuleName": "RequiredTagsForEC2Instances",
+  "Description": "Checks whether given tags are applied to EC2 instances.",
+  "Scope": {
+    "ComplianceResourceTypes": [
+      "AWS::EC2::Instance"
+    ]
+  },
+  "Source": {
+    "Owner": "AWS",
+    "SourceIdentifier": "REQUIRED_TAGS"
+  },
+  "InputParameters": {
+    "tag1Key": "XMCC",
+    "tag2Key": "ROLE",
+    "tag3Key": "APPNAME",
+    "tag4Key": "DEPLOYMENTSTATE"
+  }
+}

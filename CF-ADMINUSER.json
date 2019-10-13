@@ -1,0 +1,103 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Baseline IAM resources for new account",
+    "Parameters": {
+        "AdminUsername": {
+            "Type": "String",
+            "Description": "Username for the Admin user"
+        },
+        "AdminPassword": {
+            "Type": "String",
+            "NoEcho": true,
+            "MinLength": 1,
+            "Description": "Password for the Admin user"
+        }
+    },
+    "Resources": {
+        "FullAccess": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "Admin",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "*"
+                            ],
+                            "Resource": "*"
+                        }
+                    ]
+                },
+                "Groups": [
+                    {
+                        "Ref": "Administrators"
+                    }
+                ],
+                "Roles": [
+                    {
+                        "Ref": "AdminRole"
+                    }
+                ]
+            }
+        },
+        "Admin": {
+            "Type": "AWS::IAM::User",
+            "Properties": {
+                "UserName": {
+                    "Ref": "AdminUsername"
+                },
+                "Path": "/",
+                "LoginProfile": {
+                    "Password": {
+                        "Ref": "AdminPassword"
+                    }
+                }
+            }
+        },
+        "Administrators": {
+            "Type": "AWS::IAM::Group",
+            "Properties": {
+                "GroupName": "administrators",
+                "Path": "/"
+            }
+        },
+        "AddUserToGroup": {
+            "Type": "AWS::IAM::UserToGroupAddition",
+            "Properties": {
+                "GroupName": {
+                    "Ref": "Administrators"
+                },
+                "Users": [
+                    {
+                        "Ref": "Admin"
+                    }
+                ]
+            }
+        },
+        "AdminRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": "adminrole",
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/"
+            }
+        }
+    }
+}
