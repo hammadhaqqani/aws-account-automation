@@ -1,5 +1,5 @@
 # Introduction 
-This project is to automate end to end creation of new accounts in AWS
+This project is to automate end to end creation of new accounts in AWS.
 
 # Structure
 
