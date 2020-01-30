@@ -1,9 +1,9 @@
 # Introduction 
-This project is to automate end to end creation of new accounts in AWS.
+This project is to automate end to end creation of new accounts in AWS
 
 # Structure
 
-1.	New Account creation
+1.	New Account creation.
 2.	VPC creation
 3.	IAM Role and User creation
 4.	Azure ADD SSO setup
