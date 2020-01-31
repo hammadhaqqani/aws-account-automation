@@ -1,9 +1,13 @@
 pipeline {
     agent any 
     stages {
-        stage('Build') { 
+        stage('Build a car for Ariza') { 
             steps {
-               sh 'echo "Building a package"'
+               sh  '''echo "Building a package"
+                      echo "deploy my car"
+                      pwd 
+                      ls -ltrhsa
+                   '''
             }
         }
         stage('Test') { 
