@@ -28,7 +28,7 @@ usage: organization_new_acc.sh [-h] --account_name ACCOUNT_NAME
 
 # Author
 
-For more information please contact Hammad Haqqani 
+For more information please contact Hammad Haqqani !
 phaqqani@gmail.com
 
 
